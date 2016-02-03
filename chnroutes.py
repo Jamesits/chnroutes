@@ -190,13 +190,13 @@ def generate_android(metric):
     print "Old school way to call up/down script from openvpn client. " \
           "use the regular openvpn 2.1 method to add routes if it's possible"
 
-def generate_privoxy(metric):
+def generate_proxifier(metric):
     import ipaddress
     results = fetch_ip_data()
     for ip, mask, _ in results:
         network = ipaddress.IPv4Network("%s/%s" % (ip, mask))
         print "%s-%s;" % (network.network_address, network.broadcast_address),
-    print "\nUsage: copy all IP ranges and paste to \"Target Hosts\" of your Privoxy rule. "
+    print "\nUsage: copy all IP ranges and paste to \"Target Hosts\" of your Proxifier rule. "
 
 
 def fetch_ip_data():
@@ -243,7 +243,7 @@ if __name__=='__main__':
                         default='openvpn',
                         nargs='?',
                         help="Target platforms, it can be openvpn, mac, linux," 
-                        "win, android, privoxy. openvpn by default.")
+                        "win, android, proxifier. openvpn by default.")
     parser.add_argument('-m','--metric',
                         dest='metric',
                         default=5,
@@ -263,8 +263,8 @@ if __name__=='__main__':
         generate_win(args.metric)
     elif args.platform.lower() == 'android':
         generate_android(args.metric)
-    elif args.platform.lower() == 'privoxy':
-        generate_privoxy(args.metric)
+    elif args.platform.lower() == 'proxifier':
+        generate_proxifier(args.metric)
     else:
         print>>sys.stderr, "Platform %s is not supported."%args.platform
         exit(1)
